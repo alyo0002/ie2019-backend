@@ -3,7 +3,6 @@ import { FormManager } from './FormManager';
 
 @Entity('form', { schema: 'public' })
 export class Form {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -21,9 +20,8 @@ export class Form {
     nullable: false,
     name: 'form_data',
   })
-  FormData: Object;
+  FormData: object;
 
   @OneToMany(type => FormManager, form_manager => form_manager.Form)
   FormManagers: FormManager[];
-
 }

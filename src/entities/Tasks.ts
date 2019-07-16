@@ -3,7 +3,6 @@ import { TaskManager } from './TaskManager';
 
 @Entity('tasks', { schema: 'public' })
 export class Tasks {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -43,5 +42,4 @@ export class Tasks {
 
   @OneToMany(type => TaskManager, task_manager => task_manager.Task)
   TaskManagers: TaskManager[];
-
 }

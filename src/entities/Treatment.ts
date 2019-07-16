@@ -1,10 +1,16 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  RelationId,
+} from 'typeorm';
 import { Phases } from './Phases';
 import { Appointment } from './Appointment';
 
 @Entity('treatment', { schema: 'public' })
 export class Treatment {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -39,5 +45,4 @@ export class Treatment {
 
   @OneToMany(type => Appointment, appointment => appointment.Treatment)
   Appointments: Appointment[];
-
 }

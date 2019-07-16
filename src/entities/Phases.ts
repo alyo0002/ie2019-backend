@@ -3,7 +3,6 @@ import { Treatment } from './Treatment';
 
 @Entity('phases', { schema: 'public' })
 export class Phases {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -19,5 +18,4 @@ export class Phases {
 
   @OneToMany(type => Treatment, treatment => treatment.Phase)
   Treatments: Treatment[];
-
 }

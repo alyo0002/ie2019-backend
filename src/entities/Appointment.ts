@@ -1,11 +1,17 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, RelationId } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  RelationId,
+} from 'typeorm';
 import { Treatment } from './Treatment';
 import { FormManager } from './FormManager';
 import { Scan } from './Scan';
 
 @Entity('appointment', { schema: 'public' })
 export class Appointment {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -37,5 +43,4 @@ export class Appointment {
 
   @OneToMany(type => Scan, scan => scan.Appointment)
   Scans: Scan[];
-
 }

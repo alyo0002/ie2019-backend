@@ -3,7 +3,6 @@ import { Users } from './Users';
 
 @Entity('user_groups', { schema: 'public' })
 export class UserGroups {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -19,5 +18,4 @@ export class UserGroups {
 
   @OneToMany(type => Users, users => users.UserGroups)
   Userss: Users[];
-
 }

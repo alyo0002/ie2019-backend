@@ -4,7 +4,6 @@ import { Tasks } from './Tasks';
 
 @Entity('task_manager', { schema: 'public' })
 export class TaskManager {
-
   @Column('integer', {
     nullable: false,
     primary: true,

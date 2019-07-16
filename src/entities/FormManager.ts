@@ -5,7 +5,6 @@ import { FormResponse } from './FormResponse';
 
 @Entity('form_manager', { schema: 'public' })
 export class FormManager {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -13,7 +12,9 @@ export class FormManager {
   })
   Id: number;
 
-  @ManyToOne(type => Appointment, appointment => appointment.FormManagers, { nullable: false })
+  @ManyToOne(type => Appointment, appointment => appointment.FormManagers, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'appointment_id' })
   Appointment: Appointment | null;
 
@@ -27,7 +28,11 @@ export class FormManager {
   @RelationId((form_manager: FormManager) => form_manager.Form)
   FormId: number[];
 
-  @ManyToOne(type => FormResponse, form_response => form_response.FormManagers, { nullable: false })
+  @ManyToOne(
+    type => FormResponse,
+    form_response => form_response.FormManagers,
+    { nullable: false },
+  )
   @JoinColumn({ name: 'response_id' })
   Response: FormResponse | null;
 

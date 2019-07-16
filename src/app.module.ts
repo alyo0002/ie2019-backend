@@ -14,9 +14,9 @@ import { AppService } from './app.service';
       database: 'oms',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-    })],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -3,7 +3,6 @@ import { Scan } from './Scan';
 
 @Entity('scan_types', { schema: 'public' })
 export class ScanTypes {
-
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -19,5 +18,4 @@ export class ScanTypes {
 
   @OneToMany(type => Scan, scan => scan.ScanType)
   Scans: Scan[];
-
 }
