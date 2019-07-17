@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from 'typeorm';
-import { Users } from './Users';
-import { Tasks } from './Tasks';
+import { Users } from './users.entity';
+import { Tasks } from './tasks.entity';
 
 @Entity('task_manager', { schema: 'public' })
 export class TaskManager {

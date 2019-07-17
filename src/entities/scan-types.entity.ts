@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Scan } from './Scan';
+import { Scan } from './scan.entity';
 
 @Entity('scan_types', { schema: 'public' })
 export class ScanTypes {

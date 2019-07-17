@@ -6,9 +6,11 @@ import {
   OneToMany,
   RelationId,
 } from 'typeorm';
-import { Treatment } from './Treatment';
-import { FormManager } from './FormManager';
-import { Scan } from './Scan';
+import { Treatment } from './treatment.entity';
+import { Users } from './users.entity';
+import { FormManager } from './form-manager.entity';
+import { ReportManager } from './report-manager.entity';
+import { Scan } from './scan.entity';
 
 @Entity('appointment', { schema: 'public' })
 export class Appointment {
@@ -32,14 +34,21 @@ export class Appointment {
   @RelationId((appointment: Appointment) => appointment.Treatment)
   TreatmentId: number[];
 
-  @Column('integer', {
-    nullable: false,
-    name: 'user_id',
-  })
-  UserId: number;
+  @ManyToOne(type => Users, users => users.Appointments, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
+  User: Users | null;
+
+  @RelationId((appointment: Appointment) => appointment.User)
+  UserId: number[];
 
   @OneToMany(type => FormManager, form_manager => form_manager.Appointment)
   FormManagers: FormManager[];
+
+  @OneToMany(
+    type => ReportManager,
+    report_manager => report_manager.Appointment,
+  )
+  ReportManagers: ReportManager[];
 
   @OneToMany(type => Scan, scan => scan.Appointment)
   Scans: Scan[];

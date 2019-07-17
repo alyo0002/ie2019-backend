@@ -6,9 +6,10 @@ import {
   OneToMany,
   RelationId,
 } from 'typeorm';
-import { UserGroups } from './UserGroups';
-import { Scan } from './Scan';
-import { TaskManager } from './TaskManager';
+import { UserGroups } from './user-groups.entity';
+import { Appointment } from './appointment.entity';
+import { Scan } from './scan.entity';
+import { TaskManager } from './task-manager.entity';
 
 @Entity('users', { schema: 'public' })
 export class Users {
@@ -51,6 +52,9 @@ export class Users {
 
   @RelationId((users: Users) => users.UserGroups)
   UserGroupsId: number[];
+
+  @OneToMany(type => Appointment, appointment => appointment.User)
+  Appointments: Appointment[];
 
   @OneToMany(type => Scan, scan => scan.User)
   Scans: Scan[];

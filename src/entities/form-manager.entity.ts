@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, RelationId } from 'typeorm';
-import { Appointment } from './Appointment';
-import { Form } from './Form';
-import { FormResponse } from './FormResponse';
+import { Appointment } from './appointment.entity';
+import { Form } from './form.entity';
+import { FormResponse } from './form-response.entity';
 
 @Entity('form_manager', { schema: 'public' })
 export class FormManager {

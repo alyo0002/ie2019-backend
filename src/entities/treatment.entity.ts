@@ -6,8 +6,10 @@ import {
   OneToMany,
   RelationId,
 } from 'typeorm';
-import { Phases } from './Phases';
-import { Appointment } from './Appointment';
+import { Patient } from './patient.entity';
+import { Phases } from './phases.entity';
+import { Acknowledgement } from './acknowledgement.entity';
+import { Appointment } from './appointment.entity';
 
 @Entity('treatment', { schema: 'public' })
 export class Treatment {
@@ -18,11 +20,14 @@ export class Treatment {
   })
   Id: number;
 
-  @Column('integer', {
+  @ManyToOne(type => Patient, patient => patient.Treatments, {
     nullable: false,
-    name: 'patient_id',
   })
-  PatientId: number;
+  @JoinColumn({ name: 'patient_id' })
+  Patient: Patient | null;
+
+  @RelationId((treatment: Treatment) => treatment.Patient)
+  PatientId: number[];
 
   @ManyToOne(type => Phases, phases => phases.Treatments, { nullable: false })
   @JoinColumn({ name: 'phase_id' })
@@ -42,6 +47,12 @@ export class Treatment {
     name: 'treatment_cycle',
   })
   TreatmentCycle: number | null;
+
+  @OneToMany(
+    type => Acknowledgement,
+    acknowledgement => acknowledgement.Treatment,
+  )
+  Acknowledgements: Acknowledgement[];
 
   @OneToMany(type => Appointment, appointment => appointment.Treatment)
   Appointments: Appointment[];

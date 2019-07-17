@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { FormManager } from './FormManager';
+import { FormManager } from './form-manager.entity';
 
 @Entity('form_response', { schema: 'public' })
 export class FormResponse {

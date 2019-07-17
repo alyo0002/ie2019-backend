@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { TaskManager } from './TaskManager';
+import { TaskManager } from './task-manager.entity';
 
 @Entity('tasks', { schema: 'public' })
 export class Tasks {
