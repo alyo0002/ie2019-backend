@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -13,7 +12,7 @@ import { AppService } from './app.service';
       password: 'qaaNGvi5CSQ968tv3v1hSemg1gc',
       database: 'oms',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
   ],
   controllers: [AppController],
