@@ -17,7 +17,7 @@ export class UserController {
   }
 
   @Get(':userID')
-  async getUser(@Param('userID') userID) {
+  async getUser(@Param('userID') userID: number) {
     return this.userService.getUser(userID);
   }
 
@@ -27,7 +27,7 @@ export class UserController {
   }
 
   @Put(':userID')
-  async updateUser(@Param(':userID') userID, @Body() user: UserDTO) {
+  async updateUser(@Param('userID') userID: number, @Body() user: UserDTO) {
     return this.userService.updateUser(userID, user);
   }
 }
