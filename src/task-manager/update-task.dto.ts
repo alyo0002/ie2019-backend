@@ -1,5 +1,5 @@
 export class UpdateTaskDto {
-  readonly  id: number;
+  readonly id: number;
   readonly name: string;
   readonly date_creation: string;
   readonly date_due: string;

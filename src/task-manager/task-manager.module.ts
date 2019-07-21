@@ -2,6 +2,6 @@ import { Module } from '@nestjs/common';
 import { TaskManagerController } from './task-manager.controller';
 
 @Module({
-  controllers: [TaskManagerController]
+  controllers: [TaskManagerController],
 })
 export class TaskManagerModule {}
