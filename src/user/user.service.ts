@@ -23,8 +23,7 @@ export class UserService {
     return await this.usersRepository.create(user);
   }
 
-  // TODO: Update specific userID
-  async updateUser(user): Promise<any> {
-    return await this.usersRepository.save(user);
+  async updateUser(userID, user): Promise<any> {
+    return await this.usersRepository.update(userID, user);
   }
 }

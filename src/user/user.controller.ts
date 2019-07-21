@@ -22,13 +22,12 @@ export class UserController {
   }
 
   @Post()
-  async addUser(@Body() User: UserDTO) {
-    return this.userService.addUser(User);
+  async addUser(@Body() user: UserDTO) {
+    return this.userService.addUser(user);
   }
 
-  // TODO: Update specific userID
-  @Put()
-  async updateUser(@Body() User: UserDTO) {
-    return this.userService.updateUser(User);
+  @Put(':userID')
+  async updateUser(@Param(':userID') userID, @Body() user: UserDTO) {
+    return this.userService.updateUser(userID, user);
   }
 }
