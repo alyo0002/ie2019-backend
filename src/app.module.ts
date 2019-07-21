@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TaskManagerController } from './task-manager/task-manager.controller';
+import { TaskManagerModule } from './task-manager/task-manager.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -15,8 +15,9 @@ import { TaskManagerController } from './task-manager/task-manager.controller';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: false,
     }),
+    TaskManagerModule,
   ],
-  controllers: [AppController, TaskManagerController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { AddTaskDto } from './add-task.dto';
 import { UpdateTaskDto } from './update-task.dto';
+import { AddTaskDto } from './add-task.dto';
 
 @Controller('task-manager')
 export class TaskManagerController {
@@ -28,4 +28,5 @@ export class TaskManagerController {
     return `This action removes task #${params.taskId}.`;
     /*Remove tasks from task*/
   }
+
 }
