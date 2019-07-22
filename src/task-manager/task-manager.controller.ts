@@ -7,39 +7,40 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { UpdateTaskDto } from './update-task.dto';
-import { AddTaskDto } from './add-task.dto';
+import { TaskDTO } from './task.dto';
+import { TaskManagerService } from './task-manager.service';
 
 @Controller('task-manager')
 export class TaskManagerController {
+  constructor(private taskService: TaskManagerService) {}
+
+  // Fetch all of the user's assigned tasks.
   @Get(':userId')
-  async fetchUserTasks(@Param() params): Promise<string> {
-    return `This action fetches the tasks for user #${params.userId}.`;
-    /*Fetch all task ids from task manager where user id = input
-    Then fetch details for each task */
+  async fetchUserTasks(
+    @Param('userId') userId: number) {
+    return this.taskService.fetchUserTasks(userId);
   }
 
+  // Add a task to the assigned user.
   @Post(':userId')
   async addTask(
-    @Param('userId') userId: string,
-    @Body() addTaskDto: AddTaskDto,
-  ) {
-    return `This action adds a new task for user #${userId}.`;
-    /*Add new task for user in task manager, then add task details to tasks*/
+    @Param('userId') userId: number,
+    @Body() taskDTO: TaskDTO) {
+    return this.taskService.addTask(userId, taskDTO);
   }
 
+  // Update a task.
   @Put(':taskId')
   async updateTask(
-    @Param('taskId') taskId: string,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ) {
-    return `This action updates task #${taskId}.`;
-    /*Update the details for the task in task*/
+    @Param('taskId') taskId: number,
+    @Body() Task: TaskDTO) {
+    return this.taskService.updateTask(taskId, Task);
   }
 
+  // Delete a task.
   @Delete(':taskId')
-  async removeTask(@Param() params): Promise<string> {
-    return `This action removes task #${params.taskId}.`;
-    /*Remove tasks from task*/
+  async removeTask(
+    @Param('taskId') taskId: number) {
+    return this.taskService.removeTask(taskId);
   }
 }
