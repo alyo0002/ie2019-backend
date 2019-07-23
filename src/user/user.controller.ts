@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/user.dto';
+import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -22,12 +23,15 @@ export class UserController {
   }
 
   @Post()
-  async addUser(@Body() user: UserDTO) {
-    return this.userService.addUser(user);
+  async createUser(@Body() userDTO: UserDTO) {
+    return this.userService.createUser(userDTO);
   }
 
   @Put(':userID')
-  async updateUser(@Param('userID') userID: number, @Body() user: UserDTO) {
+  async updateUser(
+    @Param('userID') userID: number,
+    @Body() user: UpdateUserDTO,
+  ) {
     return this.userService.updateUser(userID, user);
   }
 }
