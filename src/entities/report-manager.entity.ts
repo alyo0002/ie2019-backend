@@ -1,4 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne, RelationId } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { GeneratedReports } from './generated-reports.entity';
 import { ReportTemplates } from './report-templates.entity';
 import { Appointment } from './appointment.entity';
@@ -20,9 +34,6 @@ export class ReportManager {
   @JoinColumn({ name: 'generated_report_id' })
   GeneratedReport: GeneratedReports | null;
 
-  @RelationId((report_manager: ReportManager) => report_manager.GeneratedReport)
-  GeneratedReportId: number[];
-
   @ManyToOne(
     type => ReportTemplates,
     report_templates => report_templates.ReportManagers,
@@ -31,13 +42,7 @@ export class ReportManager {
   @JoinColumn({ name: 'report_template_id' })
   ReportTemplate: ReportTemplates | null;
 
-  @RelationId((report_manager: ReportManager) => report_manager.ReportTemplate)
-  ReportTemplateId: number[];
-
   @ManyToOne(type => Appointment, appointment => appointment.ReportManagers, {})
   @JoinColumn({ name: 'appointment_id' })
   Appointment: Appointment | null;
-
-  @RelationId((report_manager: ReportManager) => report_manager.Appointment)
-  AppointmentId: number[];
 }

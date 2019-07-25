@@ -25,6 +25,8 @@ export class UserService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    @InjectRepository(UserGroups)
+    private userGroupsRepository: Repository<UserGroups>,
   ) {}
 
   async getUsers(): Promise<Users[]> {
@@ -59,11 +61,7 @@ export class UserService {
       password_hash,
       user_groups_id,
     } = userDTO;
-    // const userCheck = await getConnection()
-    //   .createQueryBuilder()
-    //   .relation(Users, 'UserGroups')
-    //   .of(userDTO)
-    //   .loadOne();
+
     const userCheck = await this.usersRepository
       .createQueryBuilder()
       .where('Email = :email', { email })
@@ -79,19 +77,15 @@ export class UserService {
     newUser.NameFirst = name_first;
     newUser.NameLast = name_last;
     newUser.PasswordHash = password_hash;
-    newUser.UserGroupsId = Number(await getConnection()
-      .createQueryBuilder(UserGroups, 'UserGroups')
-      .select('id')
-      .where('id = :id', {id: user_groups_id}).getOne());
+    newUser.UserGroups = await this.userGroupsRepository.findOne(user_groups_id);
 
-    Logger.debug('New User: ');
+    Logger.debug('New User object');
     Logger.debug(newUser);
 
     const errors = await validate(newUser);
     if (errors.length > 0) {
-      const _errors = { username: 'Userinput is not valid.' };
       throw new HttpException(
-        { message: 'Whoops', _errors },
+        { message: 'Something went wrong', errors },
         HttpStatus.BAD_REQUEST,
       );
     } else {

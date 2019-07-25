@@ -1,4 +1,18 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { Patient } from './patient.entity';
 
 @Entity('family_doctor', { schema: 'public' })
@@ -30,9 +44,9 @@ export class FamilyDoctor {
 
   @Column('text', {
     nullable: true,
-    name: 'phone_numbeer',
+    name: 'phone_number',
   })
-  PhoneNumbeer: string | null;
+  PhoneNumber: string | null;
 
   @Column('text', {
     nullable: true,

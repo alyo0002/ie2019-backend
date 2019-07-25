@@ -1,9 +1,16 @@
 import {
+  BaseEntity,
   Column,
   Entity,
+  Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
 import { UserGroups } from './user-groups.entity';
@@ -49,9 +56,6 @@ export class Users {
   })
   @JoinColumn({ name: 'user_groups_id' })
   UserGroups: UserGroups | null;
-
-  @RelationId((users: Users) => users.UserGroups)
-  UserGroupsId: number[];
 
   @OneToMany(type => Appointment, appointment => appointment.User)
   Appointments: Appointment[];

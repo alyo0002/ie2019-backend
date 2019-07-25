@@ -1,4 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne, RelationId } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { Users } from './users.entity';
 import { Tasks } from './tasks.entity';
 
@@ -15,13 +29,7 @@ export class TaskManager {
   @JoinColumn({ name: 'user_id' })
   User: Users | null;
 
-  @RelationId((task_manager: TaskManager) => task_manager.User)
-  UserId: number[];
-
   @ManyToOne(type => Tasks, tasks => tasks.TaskManagers, { nullable: false })
   @JoinColumn({ name: 'task_id' })
   Task: Tasks | null;
-
-  @RelationId((task_manager: TaskManager) => task_manager.Task)
-  TaskId: number[];
 }

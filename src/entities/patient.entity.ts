@@ -1,9 +1,16 @@
 import {
+  BaseEntity,
   Column,
   Entity,
+  Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
 import { EmergencyContact } from './emergency-contact.entity';
@@ -112,15 +119,9 @@ export class Patient {
   @JoinColumn({ name: 'emergency_contact_id' })
   EmergencyContact: EmergencyContact | null;
 
-  @RelationId((patient: Patient) => patient.EmergencyContact)
-  EmergencyContactId: number[];
-
   @ManyToOne(type => FamilyDoctor, family_doctor => family_doctor.Patients, {})
   @JoinColumn({ name: 'family_doctor_id' })
   FamilyDoctor: FamilyDoctor | null;
-
-  @RelationId((patient: Patient) => patient.FamilyDoctor)
-  FamilyDoctorId: number[];
 
   @OneToMany(
     type => Acknowledgement,

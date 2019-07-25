@@ -1,4 +1,18 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { ReportManager } from './report-manager.entity';
 
 @Entity('generated_reports', { schema: 'public' })
@@ -14,7 +28,7 @@ export class GeneratedReports {
     nullable: false,
     name: 'report_data',
   })
-  ReportData: object;
+  ReportData: Object;
 
   @OneToMany(
     type => ReportManager,

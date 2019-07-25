@@ -1,4 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne, RelationId } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { Patient } from './patient.entity';
 import { Treatment } from './treatment.entity';
 
@@ -17,17 +31,11 @@ export class Acknowledgement {
   @JoinColumn({ name: 'patient_id' })
   Patient: Patient | null;
 
-  @RelationId((acknowledgement: Acknowledgement) => acknowledgement.Patient)
-  PatientId: number[];
-
   @ManyToOne(type => Treatment, treatment => treatment.Acknowledgements, {
     nullable: false,
   })
   @JoinColumn({ name: 'treatment_id' })
   Treatment: Treatment | null;
-
-  @RelationId((acknowledgement: Acknowledgement) => acknowledgement.Treatment)
-  TreatmentId: number[];
 
   @Column('date', {
     nullable: false,
