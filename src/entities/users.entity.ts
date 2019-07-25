@@ -1,22 +1,17 @@
 import {
-  BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
-  Index,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
 } from 'typeorm';
 import { UserGroups } from './user-groups.entity';
 import { Appointment } from './appointment.entity';
 import { Scan } from './scan.entity';
 import { TaskManager } from './task-manager.entity';
+const bcrypt = require('bcrypt');
 
 @Entity('users', { schema: 'public' })
 export class Users {
@@ -50,6 +45,18 @@ export class Users {
     name: 'password_hash',
   })
   PasswordHash: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async savePassword(): Promise<void> {
+    if (this.PasswordHash) {
+      this.PasswordHash = await Users.hashPassword(this.PasswordHash);
+    }
+  }
+
+  private static hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, 12);
+  }
 
   @ManyToOne(type => UserGroups, user_groups => user_groups.Userss, {
     nullable: false,
