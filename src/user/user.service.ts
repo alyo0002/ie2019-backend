@@ -7,11 +7,18 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../entities/users.entity';
-import { DeleteResult, getRepository, Repository, UpdateResult } from 'typeorm';
+import {
+  DeleteResult,
+  getConnection,
+  getRepository,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { User } from './interface/user.interface';
 import { UserDTO } from './dto/user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { validate } from 'class-validator';
+import { UserGroups } from '../entities/user-groups.entity';
 
 @Injectable()
 export class UserService {
@@ -42,23 +49,29 @@ export class UserService {
   }
 
   async createUser(userDTO: UserDTO): Promise<any> {
-    Logger.debug('Creating user: ' + userDTO.email);
+    Logger.debug('Creating new user');
+    Logger.debug(userDTO);
 
-    const { email, name_first, name_last, password_hash } = userDTO;
-
-    const query = await this.usersRepository
-      .createQueryBuilder('users')
-      .leftJoinAndSelect('user_groups_id', 'users')
-      .where('users.email = :email', { email });
-    const user = await query.getOne();
-    if (user) {
-      const error = {
-        email: 'Email address currently exists within the database',
-      };
-      throw new HttpException(
-        { message: 'Input data validation failed', error },
-        HttpStatus.BAD_REQUEST,
-      );
+    const {
+      email,
+      name_first,
+      name_last,
+      password_hash,
+      user_groups_id,
+    } = userDTO;
+    // const userCheck = await getConnection()
+    //   .createQueryBuilder()
+    //   .relation(Users, 'UserGroups')
+    //   .of(userDTO)
+    //   .loadOne();
+    const userCheck = await this.usersRepository
+      .createQueryBuilder()
+      .where('Email = :email', { email })
+      .getOne();
+    Logger.debug('User check result');
+    Logger.debug(userCheck);
+    if (userCheck) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
     }
 
     const newUser = new Users();
@@ -66,8 +79,13 @@ export class UserService {
     newUser.NameFirst = name_first;
     newUser.NameLast = name_last;
     newUser.PasswordHash = password_hash;
+    newUser.UserGroupsId = Number(await getConnection()
+      .createQueryBuilder(UserGroups, 'UserGroups')
+      .select('id')
+      .where('id = :id', {id: user_groups_id}).getOne());
 
-    Logger.debug('New User: ' + newUser);
+    Logger.debug('New User: ');
+    Logger.debug(newUser);
 
     const errors = await validate(newUser);
     if (errors.length > 0) {
