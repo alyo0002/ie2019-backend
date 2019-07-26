@@ -12,18 +12,24 @@ export class TaskManagerService {
     ) {}
 
     async fetchUserTasks(userId: number): Promise<any> {
-      return await this.tasksRepository.find(userId); // TODO Need to check task manager, then tasks
+      // Get list of taskIds from task manager where userId = userID
+      // Use list of taskIds to fetch task details
+      return await this.tasksRepository.find(userId);
     }
 
     async addTask(userId: number, Task: TaskDTO): Promise<any> {
-      return await this.tasksRepository.insert(TaskDTO); // TODO Need to add to task manager, and then tasks
+      // Use task details to create task, and get its ID
+      // Insert task ID and userId into task manager
+      return await this.tasksRepository.insert(TaskDTO);
     }
 
     async updateTask(taskId: number, Task: TaskDTO): Promise<any> {
-      return await this.tasksRepository.update(taskId, Task); // TODO fix
+      // Update the task with new details, based on the taskId
+      return await this.tasksRepository.update(taskId, Task);
     }
 
     async removeTask(taskId: number): Promise<any> {
+      // Delete the task, using taskId
       return await this.tasksRepository.delete(taskId);
     }
 }
