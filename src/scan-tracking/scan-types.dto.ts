@@ -1,10 +1,8 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
-export class TaskManagerDTO {
+export class ScanDTO {
   @ApiModelProperty()
   readonly id: number;
   @ApiModelProperty()
-  readonly userId: number;
-  @ApiModelProperty()
-  readonly taskId: number;
+  readonly name: string;
 }
