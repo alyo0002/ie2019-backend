@@ -17,13 +17,18 @@ export class TaskManagerService {
     private usersRepository: Repository<Users>,
   ) {}
 
-    /*async fetchUserTasks(userId: number): Promise<Tasks[]> {
-      // Get list of taskIds from task manager where userId = userID
-      const taskIds = number[];
-      await this.taskManagerRepository.find(userId);
+    async fetchUserTasks(userId: number): Promise<any> {
+      // Get a list of the user's task ids from task manager
+      const taskIds = await this.taskManagerRepository
+        .createQueryBuilder()
+        .addSelect('task_id')
+        .where('user_id = :userId', { userId });
       // Use list of taskIds to fetch task details
-      return await this.tasksRepository.find(userId);
-    }*/
+      return await this.tasksRepository
+        .createQueryBuilder()
+        .addSelect('*')
+        .where('task_id in [:taskIds]', { taskIds });
+    }
 
     async addTask(userId: number, taskDTO: TaskDTO): Promise<any> {
       // Get the task details from the DTO
@@ -51,16 +56,31 @@ export class TaskManagerService {
       return await this.taskManagerRepository.save(newTaskManager);
     }
 
-    /*async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
+    async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
+      // Get the updated task details from the DTO
+      const {
+        name,
+        date_creation,
+        date_due,
+        description,
+        priority,
+      } = taskDTO;
       // Find the task to update, using taskId
       const task = await this.tasksRepository.findOne(taskId);
-      // Update the task details, using the taskDTO
-      const updatedTask = Object.assign(task, taskDTO);
-      return await this.tasksRepository.save(updatedTask);
-    }*/
+      // Update the task details
+      task.Name = name;
+      task.DateCreation = date_creation;
+      task.DateDue = date_due;
+      task.Description = description;
+      task.Priority = priority;
+      // Save the updated task
+      return await this.tasksRepository.save(task);
+    }
 
-    /*async removeTask(taskId: number): Promise<any> {
-      // Delete the task, using taskId
+    async removeTask(taskId: number): Promise<any> {
+      // Delete the task from Task Manager, using taskId
+      await this.taskManagerRepository.delete(taskId);
+      // Delete the task from Tasks, using taskId
       return await this.tasksRepository.delete(taskId);
-    }*/
+    }
 }
