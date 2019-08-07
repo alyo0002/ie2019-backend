@@ -14,7 +14,7 @@ export class FormResponse {
     nullable: false,
     name: 'response_data',
   })
-  ResponseData: Object;
+  ResponseData: object;
 
   @OneToMany(type => FormManager, form_manager => form_manager.Response)
   FormManagers: FormManager[];
