@@ -28,7 +28,7 @@ export class GeneratedReports {
     nullable: false,
     name: 'report_data',
   })
-  ReportData: Object;
+  ReportData: object;
 
   @OneToMany(
     type => ReportManager,

@@ -34,7 +34,7 @@ export class Form {
     nullable: false,
     name: 'form_data',
   })
-  FormData: Object;
+  FormData: object;
 
   @OneToMany(type => FormManager, form_manager => form_manager.Form)
   FormManagers: FormManager[];
