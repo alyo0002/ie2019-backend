@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { EmergencyContact } from './emergency-contact.entity';
 import { FamilyDoctor } from './family-doctor.entity';
 import { Acknowledgement } from './acknowledgement.entity';
@@ -112,15 +105,9 @@ export class Patient {
   @JoinColumn({ name: 'emergency_contact_id' })
   EmergencyContact: EmergencyContact | null;
 
-  @RelationId((patient: Patient) => patient.EmergencyContact)
-  EmergencyContactId: number[];
-
   @ManyToOne(type => FamilyDoctor, family_doctor => family_doctor.Patients, {})
   @JoinColumn({ name: 'family_doctor_id' })
   FamilyDoctor: FamilyDoctor | null;
-
-  @RelationId((patient: Patient) => patient.FamilyDoctor)
-  FamilyDoctorId: number[];
 
   @OneToMany(
     type => Acknowledgement,

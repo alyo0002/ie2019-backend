@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Treatment } from './treatment.entity';
 import { Users } from './users.entity';
 import { FormManager } from './form-manager.entity';
@@ -31,15 +24,9 @@ export class Appointment {
   @JoinColumn({ name: 'treatment_id' })
   Treatment: Treatment | null;
 
-  @RelationId((appointment: Appointment) => appointment.Treatment)
-  TreatmentId: number[];
-
   @ManyToOne(type => Users, users => users.Appointments, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   User: Users | null;
-
-  @RelationId((appointment: Appointment) => appointment.User)
-  UserId: number[];
 
   @OneToMany(type => FormManager, form_manager => form_manager.Appointment)
   FormManagers: FormManager[];

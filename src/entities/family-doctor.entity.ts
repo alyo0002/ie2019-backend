@@ -30,9 +30,9 @@ export class FamilyDoctor {
 
   @Column('text', {
     nullable: true,
-    name: 'phone_numbeer',
+    name: 'phone_number',
   })
-  PhoneNumbeer: string | null;
+  PhoneNumber: string | null;
 
   @Column('text', {
     nullable: true,
