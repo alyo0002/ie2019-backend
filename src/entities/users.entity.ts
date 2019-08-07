@@ -11,6 +11,7 @@ import { UserGroups } from './user-groups.entity';
 import { Appointment } from './appointment.entity';
 import { Scan } from './scan.entity';
 import { TaskManager } from './task-manager.entity';
+const bcrypt = require('bcrypt');
 
 import bcrypt = require('bcrypt');
 

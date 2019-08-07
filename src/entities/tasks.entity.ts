@@ -1,4 +1,18 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { TaskManager } from './task-manager.entity';
 
 @Entity('tasks', { schema: 'public' })

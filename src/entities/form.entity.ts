@@ -1,4 +1,18 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 import { FormManager } from './form-manager.entity';
 
 @Entity('form', { schema: 'public' })
@@ -20,7 +34,7 @@ export class Form {
     nullable: false,
     name: 'form_data',
   })
-  FormData: object;
+  FormData: Object;
 
   @OneToMany(type => FormManager, form_manager => form_manager.Form)
   FormManagers: FormManager[];

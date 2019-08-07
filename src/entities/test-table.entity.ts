@@ -1,4 +1,18 @@
-import { Column, Entity } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
 
 @Entity('test_table', { schema: 'public' })
 export class TestTable {
