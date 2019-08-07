@@ -41,14 +41,19 @@ export class TaskManagerService {
     newTask.Description = description;
     newTask.Priority = priority;
     // Save the new task
-    const savedTask = await this.tasksRepository.save(newTask);
+    await this.tasksRepository.save(newTask);
     // Create the new task manager object
     const newTaskManager = new TaskManager();
     newTaskManager.User = await this.usersRepository.findOne(userId);
-    newTaskManager.Task = savedTask;
+    newTaskManager.Task = await this.tasksRepository
+      .createQueryBuilder()
+      .addSelect('*')
+      .orderBy('task_id DESC')
+      .limit(1);
     // Save the new task manager
     return await this.taskManagerRepository.save(newTaskManager);
   }
+
 
   async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
     // Get the updated task details from the DTO
