@@ -77,7 +77,9 @@ export class UserService {
     newUser.NameFirst = name_first;
     newUser.NameLast = name_last;
     newUser.PasswordHash = password_hash;
-    newUser.UserGroups = await this.userGroupsRepository.findOne(user_groups_id);
+    newUser.UserGroups = await this.userGroupsRepository.findOne(
+      user_groups_id,
+    );
 
     Logger.debug('New User object');
     Logger.debug(newUser);
