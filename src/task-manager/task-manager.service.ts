@@ -16,7 +16,7 @@ export class TaskManagerService {
 
     async fetchUserTasks(userId: number): Promise<Tasks[]> {
       // Get list of taskIds from task manager where userId = userID
-      const taskIds = number[];
+      // const taskIds = number[];
       await this.taskManagerRepository.find(userId);
       // Use list of taskIds to fetch task details
       return await this.tasksRepository.find(userId);
