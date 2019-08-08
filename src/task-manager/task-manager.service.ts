@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tasks } from '../entities/tasks.entity';
 import { Repository } from 'typeorm';
@@ -42,18 +42,18 @@ export class TaskManagerService {
     newTask.Priority = priority;
     // Save the new task
     await this.tasksRepository.save(newTask);
+    // Get the id of the newly-created task
+    const latestTask = await this.tasksRepository
+      .createQueryBuilder()
+      .orderBy("id", "DESC")
+      .getOne();
     // Create the new task manager object
     const newTaskManager = new TaskManager();
     newTaskManager.User = await this.usersRepository.findOne(userId);
-    newTaskManager.Task = await this.tasksRepository
-      .createQueryBuilder()
-      .addSelect('*')
-      .orderBy('task_id DESC')
-      .limit(1);
+    newTaskManager.Task = await this.tasksRepository.findOne(latestTask.Id);
     // Save the new task manager
     return await this.taskManagerRepository.save(newTaskManager);
   }
-
 
   async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
     // Get the updated task details from the DTO
