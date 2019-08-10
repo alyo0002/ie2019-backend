@@ -18,16 +18,25 @@ export class TaskManagerService {
   ) {}
 
   async fetchUserTasks(userId: number): Promise<any> {
-    // Get a list of the user's task ids from task manager
-    const taskIds = await this.taskManagerRepository
+    // Get the user's task managers
+    const taskManagers = await this.taskManagerRepository
       .createQueryBuilder()
-      .addSelect('task_id')
-      .where('user_id = :userId', { userId });
-    // Use list of taskIds to fetch task details
-    return this.tasksRepository
-      .createQueryBuilder()
-      .addSelect('*')
-      .where('task_id in [:taskIds]', { taskIds });
+      .where('user_id = :userId', { userId })
+      .getMany();
+
+    return taskManagers;
+
+    /*// Create an array to hold the taskManagers
+    const taskManagers = [];
+    // For each task manager id, get the corresponding task manager
+    taskManagerIds.forEach(async (taskManagerId) => {
+      Logger.debug(taskManagerId.Id);
+      Logger.debug(await this.taskManagerRepository.findOne(taskManagerId.Id));
+      const tempTaskManager = await this.taskManagerRepository.findOne(taskManagerId.Id);
+      Logger.debug(tempTaskManager);
+      taskManagers.push(tempTaskManager);
+    });
+    return taskManagers;*/
   }
 
   async addTask(userId: number, taskDTO: TaskDTO): Promise<any> {
