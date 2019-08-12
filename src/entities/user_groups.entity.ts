@@ -1,19 +1,5 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
-import { Users } from './users.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Users } from './users';
 
 @Entity('user_groups', { schema: 'public' })
 export class UserGroups {

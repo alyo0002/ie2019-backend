@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Treatment } from './treatment.entity';
-import { Users } from './users.entity';
-import { FormManager } from './form-manager.entity';
-import { ReportManager } from './report-manager.entity';
-import { Scan } from './scan.entity';
+import { Treatment } from './treatment';
+import { Users } from './users';
+import { Form } from './form';
+import { Report } from './report';
+import { Scan } from './scan';
 
 @Entity('appointment', { schema: 'public' })
 export class Appointment {
@@ -28,14 +28,11 @@ export class Appointment {
   @JoinColumn({ name: 'user_id' })
   User: Users | null;
 
-  @OneToMany(type => FormManager, form_manager => form_manager.Appointment)
-  FormManagers: FormManager[];
+  @OneToMany(type => Form, form => form.Appointment)
+  Forms: Form[];
 
-  @OneToMany(
-    type => ReportManager,
-    report_manager => report_manager.Appointment,
-  )
-  ReportManagers: ReportManager[];
+  @OneToMany(type => Report, report => report.Appointment)
+  Reports: Report[];
 
   @OneToMany(type => Scan, scan => scan.Appointment)
   Scans: Scan[];

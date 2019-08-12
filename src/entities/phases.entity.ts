@@ -1,19 +1,5 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
-import { Treatment } from './treatment.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Treatment } from './treatment';
 
 @Entity('phases', { schema: 'public' })
 export class Phases {

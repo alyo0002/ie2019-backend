@@ -1,17 +1,8 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
-import { UserGroups } from './user-groups.entity';
-import { Appointment } from './appointment.entity';
-import { Scan } from './scan.entity';
-import { TaskManager } from './task-manager.entity';
-import bcrypt = require('bcrypt');
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { UserGroups } from './user_groups';
+import { Appointment } from './appointment';
+import { Scan } from './scan';
+import { Task } from './task';
 
 @Entity('users', { schema: 'public' })
 export class Users {
@@ -46,18 +37,6 @@ export class Users {
   })
   PasswordHash: string;
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  async savePassword(): Promise<void> {
-    if (this.PasswordHash) {
-      this.PasswordHash = await Users.hashPassword(this.PasswordHash);
-    }
-  }
-
-  private static hashPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, 12);
-  }
-
   @ManyToOne(type => UserGroups, user_groups => user_groups.Userss, {
     nullable: false,
   })
@@ -70,6 +49,9 @@ export class Users {
   @OneToMany(type => Scan, scan => scan.User)
   Scans: Scan[];
 
-  @OneToMany(type => TaskManager, task_manager => task_manager.User)
-  TaskManagers: TaskManager[];
+  @OneToMany(type => Task, task => task.AssigneeUser)
+  Tasks: Task[];
+
+  @OneToMany(type => Task, task => task.AssignerUser)
+  Tasks2: Task[];
 }

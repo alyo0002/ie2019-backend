@@ -1,19 +1,5 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
-import { Scan } from './scan.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Scan } from './scan';
 
 @Entity('scan_types', { schema: 'public' })
 export class ScanTypes {

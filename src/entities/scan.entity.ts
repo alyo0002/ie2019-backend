@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ScanTypes } from './scan-types.entity';
-import { Appointment } from './appointment.entity';
-import { Users } from './users.entity';
+import { ScanTypes } from './scan_types';
+import { Appointment } from './appointment';
+import { Users } from './users';
 
 @Entity('scan', { schema: 'public' })
 export class Scan {
