@@ -7,6 +7,6 @@ export class ScanDTO {
   readonly appointmentId: number;
   @ApiModelProperty()
   readonly userId: number;
-  // @ApiModelProperty()
-  // readonly attachment: bytea;
+  @ApiModelProperty()
+  readonly attachment: object;
 }
