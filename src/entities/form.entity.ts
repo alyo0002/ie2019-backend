@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Appointment } from './appointment';
-import { FormTemplate } from './form_template';
+import { Appointment } from './appointment.entity';
+import { FormTemplate } from './form_template.entity';
 
 @Entity('form', { schema: 'public' })
 export class Form {

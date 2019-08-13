@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Users } from './users';
+import { Users } from './users.entity';
 
 @Entity('user_groups', { schema: 'public' })
 export class UserGroups {

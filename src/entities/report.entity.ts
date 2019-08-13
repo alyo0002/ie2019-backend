@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { ReportTemplates } from './report_templates';
-import { Appointment } from './appointment';
+import { ReportTemplates } from './report_templates.entity';
+import { Appointment } from './appointment.entity';
 
 @Entity('report', { schema: 'public' })
 export class Report {

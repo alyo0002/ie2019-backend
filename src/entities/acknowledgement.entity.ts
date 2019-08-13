@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Patient } from './patient';
-import { Treatment } from './treatment';
+import { Patient } from './patient.entity';
+import { Treatment } from './treatment.entity';
 
 @Entity('acknowledgement', { schema: 'public' })
 export class Acknowledgement {

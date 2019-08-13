@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Patient } from './patient';
+import { Patient } from './patient.entity';
 
 @Entity('family_doctor', { schema: 'public' })
 export class FamilyDoctor {

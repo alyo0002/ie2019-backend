@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Users } from './users';
+import { Users } from './users.entity';
 
 @Entity('task', { schema: 'public' })
 export class Task {

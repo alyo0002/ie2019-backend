@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { UserGroups } from './user_groups';
-import { Appointment } from './appointment';
-import { Scan } from './scan';
-import { Task } from './task';
+import { UserGroups } from './user_groups.entity';
+import { Appointment } from './appointment.entity';
+import { Scan } from './scan.entity';
+import { Task } from './task.entity';
 
 @Entity('users', { schema: 'public' })
 export class Users {

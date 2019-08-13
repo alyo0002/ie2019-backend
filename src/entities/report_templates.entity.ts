@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Report } from './report';
+import { Report } from './report.entity';
 
 @Entity('report_templates', { schema: 'public' })
 export class ReportTemplates {

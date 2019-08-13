@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { EmergencyContact } from './emergency_contact';
-import { FamilyDoctor } from './family_doctor';
-import { Acknowledgement } from './acknowledgement';
-import { Treatment } from './treatment';
+import { EmergencyContact } from './emergency_contact.entity';
+import { FamilyDoctor } from './family_doctor.entity';
+import { Acknowledgement } from './acknowledgement.entity';
+import { Treatment } from './treatment.entity';
 
 @Entity('patient', { schema: 'public' })
 export class Patient {

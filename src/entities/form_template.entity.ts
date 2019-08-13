@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { Form } from './form';
+import { Form } from './form.entity';
 
 @Entity('form_template', { schema: 'public' })
 export class FormTemplate {

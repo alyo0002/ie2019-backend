@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Treatment } from './treatment';
-import { Users } from './users';
-import { Form } from './form';
-import { Report } from './report';
-import { Scan } from './scan';
+import { Treatment } from './treatment.entity';
+import { Users } from './users.entity';
+import { Form } from './form.entity';
+import { Report } from './report.entity';
+import { Scan } from './scan.entity';
 
 @Entity('appointment', { schema: 'public' })
 export class Appointment {
