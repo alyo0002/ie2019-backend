@@ -1,19 +1,6 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
-import { FormManager } from './form-manager.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Appointment } from './appointment.entity';
+import { FormTemplate } from './form_template.entity';
 
 @Entity('form', { schema: 'public' })
 export class Form {
@@ -34,8 +21,15 @@ export class Form {
     nullable: false,
     name: 'form_data',
   })
-  FormData: object;
+  FormData: Object;
 
-  @OneToMany(type => FormManager, form_manager => form_manager.Form)
-  FormManagers: FormManager[];
+  @ManyToOne(type => Appointment, appointment => appointment.Forms, {})
+  @JoinColumn({ name: 'appointment_id' })
+  Appointment: Appointment | null;
+
+  @ManyToOne(type => FormTemplate, form_template => form_template.Forms, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'form_template_id' })
+  FormTemplate: FormTemplate | null;
 }

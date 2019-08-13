@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { EmergencyContact } from './emergency-contact.entity';
-import { FamilyDoctor } from './family-doctor.entity';
+import { EmergencyContact } from './emergency_contact.entity';
+import { FamilyDoctor } from './family_doctor.entity';
 import { Acknowledgement } from './acknowledgement.entity';
 import { Treatment } from './treatment.entity';
 

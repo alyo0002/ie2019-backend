@@ -1,22 +1,8 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
-import { TaskManager } from './task-manager.entity';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Users } from './users.entity';
 
-@Entity('tasks', { schema: 'public' })
-export class Tasks {
+@Entity('task', { schema: 'public' })
+export class Task {
   @Column('integer', {
     nullable: false,
     primary: true,
@@ -54,6 +40,11 @@ export class Tasks {
   })
   Priority: number;
 
-  @OneToMany(type => TaskManager, task_manager => task_manager.Task)
-  TaskManagers: TaskManager[];
+  @ManyToOne(type => Users, users => users.Tasks, { nullable: false })
+  @JoinColumn({ name: 'assignee_user_id' })
+  AssigneeUser: Users | null;
+
+  @ManyToOne(type => Users, users => users.Tasks2, { nullable: false })
+  @JoinColumn({ name: 'assigner_user_id' })
+  AssignerUser: Users | null;
 }

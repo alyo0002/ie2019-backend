@@ -1,20 +1,7 @@
-import {
-  HttpException,
-  HttpService,
-  HttpStatus,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../entities/users.entity';
-import {
-  DeleteResult,
-  getConnection,
-  getRepository,
-  Repository,
-  UpdateResult,
-} from 'typeorm';
-import { User } from './interface/user.interface';
+import { DeleteResult, Repository } from 'typeorm';
 import { UserDTO } from './dto/user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { validate } from 'class-validator';

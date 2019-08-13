@@ -1,34 +1,14 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Patient } from './patient.entity';
 
-@Entity('family_doctor', { schema: 'public' })
-export class FamilyDoctor {
+@Entity('emergency_contact', { schema: 'public' })
+export class EmergencyContact {
   @Column('integer', {
     nullable: false,
     primary: true,
     name: 'id',
   })
   Id: number;
-
-  @Column('text', {
-    nullable: true,
-    name: 'title',
-  })
-  Title: string | null;
 
   @Column('text', {
     nullable: true,
@@ -54,6 +34,12 @@ export class FamilyDoctor {
   })
   Email: string | null;
 
-  @OneToMany(type => Patient, patient => patient.FamilyDoctor)
+  @Column('text', {
+    nullable: true,
+    name: 'relationship',
+  })
+  Relationship: string | null;
+
+  @OneToMany(type => Patient, patient => patient.EmergencyContact)
   Patients: Patient[];
 }
