@@ -7,9 +7,15 @@ export class TaskManagerController {
   constructor(private taskService: TaskManagerService) {}
 
   // Fetch all of the user's assigned tasks.
-  @Get(':userId')
-  async fetchUserTasks(@Param('userId') userId: number) {
-    return this.taskService.fetchUserTasks(userId);
+  @Get('/myTasks/:userId')
+  async fetchMyTasks(@Param('userId') userId: number) {
+    return this.taskService.fetchMyTasks(userId);
+  }
+
+  // Fetch all of the tasks that this user has assigned to other users.
+  @Get('/assignedTasks/:userId')
+  async fetchAssignedTasks(@Param('userId') userId: number) {
+    return this.taskService.fetchAssignedTasks(userId);
   }
 
   // Add a task to the assigned user.
@@ -18,7 +24,7 @@ export class TaskManagerController {
     return this.taskService.addTask(userId, taskDTO);
   }
 
-  // Update a task.
+  // Update a task. Note that task assigner cannot be updated.
   @Put(':taskId')
   async updateTask(@Param('taskId') taskId: number, @Body() taskDTO: TaskDTO) {
     return this.taskService.updateTask(taskId, taskDTO);

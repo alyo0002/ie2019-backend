@@ -11,4 +11,6 @@ export class TaskDTO {
   readonly description: string;
   @ApiModelProperty()
   readonly priority: number;
+  @ApiModelProperty()
+  readonly assignee_user_id: number;
 }

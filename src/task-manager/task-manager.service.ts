@@ -1,88 +1,75 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Tasks } from '../entities/tasks.entity';
+import { Task } from '../entities/task.entity';
 import { Repository } from 'typeorm';
 import { TaskDTO } from './task.dto';
-import { TaskManager } from '../entities/task-manager.entity';
 import { Users } from '../entities/users.entity';
 
 @Injectable()
 export class TaskManagerService {
   constructor(
-    @InjectRepository(Tasks)
-    private tasksRepository: Repository<Tasks>,
-    @InjectRepository(TaskManager)
-    private taskManagerRepository: Repository<TaskManager>,
+    @InjectRepository(Task)
+    private taskRepository: Repository<Task>,
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
   ) {}
 
-  async fetchUserTasks(userId: number): Promise<any> {
-    // Get the user's task managers
-    const taskManagers = await this.taskManagerRepository
+  async fetchMyTasks(userId: number): Promise<any> {
+    /* Get all of the tasks assigned to the user,
+    including the tasks assigned by the user to himself/herself.*/
+    return await this.taskRepository
       .createQueryBuilder()
-      .where('user_id = :userId', { userId })
+      .where('assignee_user_id = :userId', { userId })
+      .orderBy('date_due', 'ASC')
+      .addOrderBy('priority', 'DESC')
       .getMany();
+  }
 
-    return taskManagers;
-
-    /*// Create an array to hold the taskManagers
-    const taskManagers = [];
-    // For each task manager id, get the corresponding task manager
-    taskManagerIds.forEach(async (taskManagerId) => {
-      Logger.debug(taskManagerId.Id);
-      Logger.debug(await this.taskManagerRepository.findOne(taskManagerId.Id));
-      const tempTaskManager = await this.taskManagerRepository.findOne(taskManagerId.Id);
-      Logger.debug(tempTaskManager);
-      taskManagers.push(tempTaskManager);
-    });
-    return taskManagers;*/
+  async fetchAssignedTasks(userId: number): Promise<any> {
+    /* Get all of the tasks assigned by the user,
+    except for the tasks assigned by the user to himself/herself.*/
+    return await this.taskRepository
+      .createQueryBuilder()
+      .where('assigner_user_id = :userId AND assignee_user_id != :userId',
+        { userId })
+      .orderBy('date_due', 'ASC')
+      .addOrderBy('priority', 'DESC')
+      .getMany();
   }
 
   async addTask(userId: number, taskDTO: TaskDTO): Promise<any> {
     // Get the task details from the DTO
-    const { name, date_creation, date_due, description, priority } = taskDTO;
+    const { name, date_creation, date_due, description, priority, assignee_user_id } = taskDTO;
     // Create the new task object
-    const newTask = new Tasks();
+    const newTask = new Task();
     newTask.Name = name;
     newTask.DateCreation = date_creation;
     newTask.DateDue = date_due;
     newTask.Description = description;
     newTask.Priority = priority;
+    newTask.AssigneeUser = await this.usersRepository.findOne(assignee_user_id);
+    newTask.AssignerUser = await this.usersRepository.findOne(userId);
     // Save the new task
-    await this.tasksRepository.save(newTask);
-    // Get the id of the newly-created task
-    const latestTask = await this.tasksRepository
-      .createQueryBuilder()
-      .orderBy("id", "DESC")
-      .getOne();
-    // Create the new task manager object
-    const newTaskManager = new TaskManager();
-    newTaskManager.User = await this.usersRepository.findOne(userId);
-    newTaskManager.Task = await this.tasksRepository.findOne(latestTask.Id);
-    // Save the new task manager
-    return await this.taskManagerRepository.save(newTaskManager);
+    return await this.taskRepository.save(newTask);
   }
 
   async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
     // Get the updated task details from the DTO
-    const { name, date_creation, date_due, description, priority } = taskDTO;
+    const { name, date_creation, date_due, description, priority, assignee_user_id } = taskDTO;
     // Find the task to update, using taskId
-    const task = await this.tasksRepository.findOne(taskId);
+    const task = await this.taskRepository.findOne(taskId);
     // Update the task details
     task.Name = name;
     task.DateCreation = date_creation;
     task.DateDue = date_due;
     task.Description = description;
     task.Priority = priority;
+    task.AssigneeUser = await this.usersRepository.findOne(assignee_user_id);
     // Save the updated task
-    return await this.tasksRepository.save(task);
+    return await this.taskRepository.save(task);
   }
 
   async removeTask(taskId: number): Promise<any> {
-    // Delete the task from Task Manager, using taskId
-    await this.taskManagerRepository.delete(taskId);
-    // Delete the task from Tasks, using taskId
-    return await this.tasksRepository.delete(taskId);
+    return await this.taskRepository.delete(taskId);
   }
 }
