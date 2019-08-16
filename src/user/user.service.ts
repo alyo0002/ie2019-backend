@@ -5,7 +5,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { UserDTO } from './dto/user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { validate } from 'class-validator';
-import { UserGroups } from '../entities/user-groups.entity';
+import { UserGroups } from '../entities/user_groups.entity';
 
 @Injectable()
 export class UserService {
@@ -24,7 +24,7 @@ export class UserService {
     return await this.usersRepository.findOne(userID);
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string): Promise<Users> {
     return await this.usersRepository.findOne({ where: { Email: email } });
   }
 

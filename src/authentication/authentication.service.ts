@@ -22,7 +22,9 @@ export class AuthenticationService {
     }
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{accessToken: string}> {
+  async signIn(
+    authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
     const emailaddress = await this.validateUser(authCredentialsDto);
 
     if (!emailaddress) {
