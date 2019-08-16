@@ -1,8 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { UserGroups } from './user_groups.entity';
 import { Appointment } from './appointment.entity';
 import { Scan } from './scan.entity';
 import { Task } from './task.entity';
+
+import bcrypt = require('bcrypt');
 
 @Entity('users', { schema: 'public' })
 export class Users {
@@ -37,6 +39,27 @@ export class Users {
   })
   PasswordHash: string;
 
+  @BeforeInsert()
+  @BeforeUpdate()
+  async savePassword(): Promise<void> {
+    if (this.PasswordHash) {
+      const salt = bcrypt.genSaltSync();
+
+      this.PasswordHash = await Users.hashPassword(this.PasswordHash, salt);
+      this.PasswordSalt = salt;
+    }
+  }
+
+  private static hashPassword(password: string, salt: string): Promise<string> {
+    return bcrypt.hash(password, salt);
+  }
+
+  @Column('text', {
+    nullable: true,
+    name: 'password_salt',
+  })
+  PasswordSalt: string;
+
   @ManyToOne(type => UserGroups, user_groups => user_groups.Userss, {
     nullable: false,
   })
@@ -54,4 +77,9 @@ export class Users {
 
   @OneToMany(type => Task, task => task.AssignerUser)
   Tasks2: Task[];
+
+  async validatePassword(password: string) {
+    const hash = await bcrypt.hash(password, this.PasswordSalt);
+    return hash === this.PasswordHash;
+  }
 }

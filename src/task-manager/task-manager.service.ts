@@ -35,8 +35,9 @@ export class TaskManagerService {
     try {
       return await this.taskRepository
         .createQueryBuilder()
-        .where('assigner_user_id = :userId AND assignee_user_id != :userId',
-          { userId })
+        .where('assigner_user_id = :userId AND assignee_user_id != :userId', {
+          userId,
+        })
         .orderBy('date_due', 'ASC')
         .addOrderBy('priority', 'DESC')
         .getMany();
@@ -48,7 +49,14 @@ export class TaskManagerService {
   async addTask(userId: number, taskDTO: TaskDTO): Promise<any> {
     try {
       // Get the task details from the DTO
-      const { name, date_creation, date_due, description, priority, assignee_user_id } = taskDTO;
+      const {
+        name,
+        date_creation,
+        date_due,
+        description,
+        priority,
+        assignee_user_id,
+      } = taskDTO;
       // Create the new task object
       const newTask = new Task();
       newTask.Name = name;
@@ -56,7 +64,9 @@ export class TaskManagerService {
       newTask.DateDue = date_due;
       newTask.Description = description;
       newTask.Priority = priority;
-      newTask.AssigneeUser = await this.usersRepository.findOne(assignee_user_id);
+      newTask.AssigneeUser = await this.usersRepository.findOne(
+        assignee_user_id,
+      );
       newTask.AssignerUser = await this.usersRepository.findOne(userId);
       // Save the new task
       return await this.taskRepository.save(newTask);
@@ -68,7 +78,14 @@ export class TaskManagerService {
   async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
     try {
       // Get the updated task details from the DTO
-      const { name, date_creation, date_due, description, priority, assignee_user_id } = taskDTO;
+      const {
+        name,
+        date_creation,
+        date_due,
+        description,
+        priority,
+        assignee_user_id,
+      } = taskDTO;
       // Find the task to update, using taskId
       const task = await this.taskRepository.findOne(taskId);
       // Update the task details
