@@ -3,7 +3,7 @@ import { ScanTrackingController } from './scan-tracking.controller';
 import { ScanTrackingService } from './scan-tracking.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Scan } from '../entities/scan.entity';
-import { ScanTypes } from '../entities/scan-types.entity';
+import { ScanTypes } from '../entities/scan_types.entity';
 import { Appointment } from '../entities/appointment.entity';
 import { Users } from '../entities/users.entity';
 

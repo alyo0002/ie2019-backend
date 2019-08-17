@@ -8,5 +8,5 @@ export class ScanDTO {
   @ApiModelProperty()
   readonly userId: number;
   @ApiModelProperty()
-  readonly attachment: object;
+  readonly attachment: Buffer;
 }

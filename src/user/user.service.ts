@@ -5,7 +5,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { UserDTO } from './dto/user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { validate } from 'class-validator';
-import { UserGroups } from '../entities/user-groups.entity';
+import { UserGroups } from '../entities/user_groups.entity';
 
 @Injectable()
 export class UserService {

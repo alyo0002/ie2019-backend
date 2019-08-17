@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { TaskManagerModule } from './task-manager/task-manager.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ScanTrackingModule } from './scan-tracking/scan-tracking.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       synchronize: false,
     }),
     TaskManagerModule,
+    ScanTrackingModule,
     UserModule,
     AuthenticationModule,
   ],
