@@ -6,6 +6,7 @@ import { TaskManagerModule } from './task-manager/task-manager.module';
 import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ScanTrackingModule } from './scan-tracking/scan-tracking.module';
+import { FormsModule } from './forms/forms.module';
 
 @Module({
   imports: [
@@ -21,8 +22,10 @@ import { ScanTrackingModule } from './scan-tracking/scan-tracking.module';
     }),
     TaskManagerModule,
     ScanTrackingModule,
+    FormsModule,
     UserModule,
     AuthenticationModule,
+    FormsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -58,7 +58,7 @@ export class ScanTrackingService {
     }
   }
 
-  async updateScan(scanId: number, scanDTO: ScanDTO) {
+  async updateScan(scanId: number, scanDTO: ScanDTO): Promise<any> {
     try {
       // Get the updated scan details from the DTO
       const { scanTypeId, appointmentId, userId, attachment } = scanDTO;
@@ -76,7 +76,7 @@ export class ScanTrackingService {
     }
   }
 
-  async removeScan(scanId: number) {
+  async removeScan(scanId: number): Promise<any> {
     try {
       // Delete the scan, using its Id.
       await this.scanRepository.delete(scanId);
@@ -85,7 +85,7 @@ export class ScanTrackingService {
     }
   }
 
-  async fetchScanTypes() {
+  async fetchScanTypes(): Promise<any> {
     try {
       // Fetch all of the scan type options.
       await this.scanTypesRepository.find();
