@@ -6,9 +6,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private usersService: UserService,
-  ) {
+  constructor(private usersService: UserService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: 'jwt-secret-1231!',
@@ -16,9 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayloadInterface) {
-    const { emailaddress } = payload;
-
-    const user = await this.usersService.getUserByEmail(emailaddress);
+    const user = await this.usersService.getUserByEmail(payload.emailaddress);
 
     if (!user) {
       throw new UnauthorizedException('Invalid user');

@@ -24,10 +24,7 @@ import { JwtStrategy } from './jwt.strategy';
       },
     }),
   ],
-  exports: [
-    JwtStrategy,
-    PassportModule,
-  ],
+  exports: [JwtStrategy, PassportModule],
   providers: [AuthenticationService, JwtStrategy, UserService],
   controllers: [AuthenticationController],
 })

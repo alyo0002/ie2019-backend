@@ -19,6 +19,6 @@ export class AuthenticationController {
   @Post('/test')
   @UseGuards(AuthGuard())
   async test(@GetUser() user: Users) {
-    // tslint:disable-next-line:no-console
+    
   }
 }
