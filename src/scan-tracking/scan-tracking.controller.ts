@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ScanDTO } from './scan.dto';
 import { ScanTrackingService } from '../scan-tracking/scan-tracking.service';
 

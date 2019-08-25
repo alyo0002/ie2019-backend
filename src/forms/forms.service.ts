@@ -46,12 +46,17 @@ export class FormsService {
     }
   }
 
-  async editFormTemplate(formTemplateId: number, formTemplateDTO: FormTemplateDTO): Promise<any> {
+  async editFormTemplate(
+    formTemplateId: number,
+    formTemplateDTO: FormTemplateDTO,
+  ): Promise<any> {
     try {
       // Get the updated form template details from the DTO
       const { name, formData } = formTemplateDTO;
       // Find the form template to update, using formTemplateId
-      const formTemplate = await this.formTemplateRepository.findOne(formTemplateId);
+      const formTemplate = await this.formTemplateRepository.findOne(
+        formTemplateId,
+      );
       // Update the form template details
       formTemplate.Name = name;
       formTemplate.FormData = formData;
@@ -62,13 +67,13 @@ export class FormsService {
     }
   }
 
-    async removeFormTemplate(formTemplateId: number): Promise<any> {
-      try {
-        // Delete the form template, using its Id.
-        return await this.formTemplateRepository.delete(formTemplateId);
-      } catch (e) {
-        e.printStackTrace;
-      }
+  async removeFormTemplate(formTemplateId: number): Promise<any> {
+    try {
+      // Delete the form template, using its Id.
+      return await this.formTemplateRepository.delete(formTemplateId);
+    } catch (e) {
+      e.printStackTrace;
+    }
   }
 
   async captureFormResponse(formDTO: FormDTO): Promise<any> {
@@ -79,8 +84,12 @@ export class FormsService {
       const newForm = new Form();
       newForm.FormName = formName;
       newForm.FormData = formData;
-      newForm.Appointment = await this.appointmentRepository.findOne(appointmentId);
-      newForm.FormTemplate = await this.formTemplateRepository.findOne(formTemplateId);
+      newForm.Appointment = await this.appointmentRepository.findOne(
+        appointmentId,
+      );
+      newForm.FormTemplate = await this.formTemplateRepository.findOne(
+        formTemplateId,
+      );
       // Save the new form
       return await this.formRepository.save(newForm);
     } catch (e) {

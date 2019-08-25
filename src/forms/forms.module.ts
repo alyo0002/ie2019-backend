@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FormTemplate } from '../entities/form_template.entity';
 import { Form } from '../entities/form.entity';
 import { Appointment } from '../entities/appointment.entity';
+import { Users } from '../entities/users.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FormTemplate, Form, Appointment])],
+  imports: [TypeOrmModule.forFeature([FormTemplate, Form, Appointment, Users])],
   providers: [FormsService],
-  controllers: [FormsController]
+  controllers: [FormsController],
 })
 export class FormsModule {}

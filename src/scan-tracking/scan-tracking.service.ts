@@ -48,7 +48,9 @@ export class ScanTrackingService {
       // Create the new scan object
       const newScan = new Scan();
       newScan.ScanType = await this.scanTypesRepository.findOne(scanTypeId);
-      newScan.Appointment = await this.appointmentRepository.findOne(appointmentId);
+      newScan.Appointment = await this.appointmentRepository.findOne(
+        appointmentId,
+      );
       newScan.User = await this.usersRepository.findOne(userId);
       newScan.Attachment = attachment;
       // Upload the new scan
@@ -66,7 +68,9 @@ export class ScanTrackingService {
       const scan = await this.scanRepository.findOne(scanId);
       // Update the scan details
       scan.ScanType = await this.scanTypesRepository.findOne(scanTypeId);
-      scan.Appointment = await this.appointmentRepository.findOne(appointmentId);
+      scan.Appointment = await this.appointmentRepository.findOne(
+        appointmentId,
+      );
       scan.User = await this.usersRepository.findOne(userId);
       scan.Attachment = attachment;
       // Save the updated scan

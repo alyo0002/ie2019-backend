@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { FormsService } from './forms.service';
 import { FormTemplateDTO } from './form_template.dto';
 import { FormDTO } from './form.dto';
@@ -27,9 +35,10 @@ export class FormsController {
 
   // Edit form template.
   @Put(':formTemplateId')
-  async editFormTemplate(@Param('formTemplateId') formTemplateId: number,
-                         @Body() formTemplateDTO: FormTemplateDTO) {
-
+  async editFormTemplate(
+    @Param('formTemplateId') formTemplateId: number,
+    @Body() formTemplateDTO: FormTemplateDTO,
+  ) {
     return this.formService.editFormTemplate(formTemplateId, formTemplateDTO);
   }
 
