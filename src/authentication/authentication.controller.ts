@@ -16,9 +16,9 @@ export class AuthenticationController {
     return this.authService.signIn(authCredentialsDto);
   }
 
-  @Post('/test')
-  @UseGuards(AuthGuard())
+  @Get('/test')
+  @UseGuards(AuthGuard('jwt'))
   async test(@GetUser() user: Users) {
-    
+    console.log(user);
   }
 }
