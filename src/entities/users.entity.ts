@@ -1,4 +1,12 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { UserGroups } from './user_groups.entity';
 import { Appointment } from './appointment.entity';
 import { Scan } from './scan.entity';

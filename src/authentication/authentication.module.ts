@@ -7,9 +7,11 @@ import { UserService } from '../user/user.service';
 import { UserGroups } from '../entities/user_groups.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Users, UserGroups]),
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
@@ -20,9 +22,9 @@ import { PassportModule } from '@nestjs/passport';
         expiresIn: 3600,
       },
     }),
-    TypeOrmModule.forFeature([Users, UserGroups]),
   ],
-  providers: [AuthenticationService, UserService],
+  exports: [JwtStrategy, PassportModule],
+  providers: [AuthenticationService, JwtStrategy, UserService],
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {}
