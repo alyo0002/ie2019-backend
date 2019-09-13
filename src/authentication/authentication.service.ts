@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
@@ -7,6 +7,7 @@ import { JwtPayloadInterface } from './interface/jwt-payload.interface';
 @Injectable()
 export class AuthenticationService {
   constructor(
+    @Inject(UserService)
     private usersService: UserService,
     private jwtService: JwtService,
   ) {}

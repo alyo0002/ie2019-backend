@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { TaskDTO } from './task.dto';
 import { TaskManagerService } from './task-manager.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('task-manager')
 export class TaskManagerController {

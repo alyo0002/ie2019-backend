@@ -7,6 +7,8 @@ import { UserModule } from './user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ScanTrackingModule } from './scan-tracking/scan-tracking.module';
 import { FormsModule } from './forms/forms.module';
+import { FileManagerModule } from './file-manager/file-manager.module';
+import { PatientModule } from './patient/patient.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { FormsModule } from './forms/forms.module';
     UserModule,
     AuthenticationModule,
     FormsModule,
+    FileManagerModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
