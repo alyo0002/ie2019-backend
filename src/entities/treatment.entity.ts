@@ -1,6 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Patient } from './patient.entity';
-import { Phases } from './phases.entity';
 import { Acknowledgement } from './acknowledgement.entity';
 import { Appointment } from './appointment.entity';
 
@@ -19,9 +18,12 @@ export class Treatment {
   @JoinColumn({ name: 'patient_id' })
   Patient: Patient | null;
 
-  @ManyToOne(type => Phases, phases => phases.Treatments, { nullable: false })
-  @JoinColumn({ name: 'phase_id' })
-  Phase: Phases | null;
+  @Column('integer', {
+    nullable: false,
+    primary: false,
+    name: 'phase',
+  })
+  Phase: number;
 
   @Column('text', {
     nullable: false,

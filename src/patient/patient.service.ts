@@ -1,13 +1,19 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EmergencyContact } from '../entities/emergency_contact.entity';
 import { FamilyDoctor } from '../entities/family_doctor.entity';
 import { Patient } from '../entities/patient.entity';
-import { Users } from '../entities/users.entity';
 import { validate } from 'class-validator';
 import { PatientDTO } from './dto/patient.dto';
-
+import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios';
 @Injectable()
 export class PatientService {
   constructor(
@@ -17,6 +23,7 @@ export class PatientService {
     private EmergencyContactRepository: Repository<EmergencyContact>,
     @InjectRepository(FamilyDoctor)
     private FamilyDoctorRepository: Repository<FamilyDoctor>,
+    private readonly httpService: HttpService,
   ) {}
 
   async getPatientList(): Promise<Patient[]> {
@@ -25,12 +32,36 @@ export class PatientService {
     });
   }
 
-  async getPatient(patientID: number): Promise<any> {
+  async getPatient(patientID: number): Promise<Patient> {
     return await this.PatientRepository.findOne(patientID, {
       relations: ['EmergencyContact', 'FamilyDoctor'],
     });
   }
 
+  async logboxUpdate(): Promise<any> {
+    /*
+    TODO: Query logbox for a list of patients
+    TODO: Filter list for duplicates
+    TODO: Create new patients based on list
+    */
+
+    return this.httpService.get(
+      'https://qa.logbox.co.za/logboxrest_v2/patient/search',
+      {
+        params: {
+          practiceNumber: '0458795',
+        },
+        headers: {
+          Connection: 'keep-alive',
+          Host: 'qa.logbox.co.za',
+          'Cache-Control': 'no-cache',
+          Accept: '*/*',
+          Authorization:
+            'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJsaXZkbTk1QGdtYWlsLmNvbSJ9.am6gP8vm-_GFGKzyXEL_oKD5HnjxSItBF5jaTaGeCFd1hNjECd-cqLfzpQE6DeM7XCHj-IEP89PXbNgtdyI3oA',
+        },
+      },
+    );
+  }
   async createPatient(patientDTO: PatientDTO): Promise<any> {
     const {
       address_physical,

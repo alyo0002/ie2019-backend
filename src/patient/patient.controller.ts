@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { PatientDTO } from './dto/patient.dto';
+import { TreatmentDTO } from './dto/treatment.dto';
 
 @Controller('patient')
 export class PatientController {
@@ -14,6 +15,13 @@ export class PatientController {
   @Get(':patientID')
   async getUser(@Param('patientID') patientID: number) {
     return this.patientService.getPatient(patientID);
+  }
+
+  @Get('/listUpdate')
+  async logboxUpdate() {
+    return this.patientService.logboxUpdate().catch(err => {
+      throw err;
+    });
   }
 
   @Post()
