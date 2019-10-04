@@ -9,6 +9,10 @@ import { Users } from '../entities/users.entity';
 export class AuthenticationController {
   constructor(private authService: AuthenticationService) {}
 
+  /**
+   * Signin Route
+   * @param authCredentialsDto
+   */
   @Post('/signin')
   async signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
@@ -16,6 +20,10 @@ export class AuthenticationController {
     return this.authService.signIn(authCredentialsDto);
   }
 
+  /**
+   * Method to test a token
+   * @param user
+   */
   @Get('/test')
   @UseGuards(AuthGuard('jwt'))
   async test(@GetUser() user: Users) {

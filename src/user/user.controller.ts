@@ -5,28 +5,39 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
-  /*
-   * TODO: Delete user
-   * TODO: Forgotten password
-   */
-
   constructor(private userService: UserService) {}
 
+  /**
+   * Get all users
+   */
   @Get()
   async findAll() {
     return this.userService.getUsers();
   }
 
+  /**
+   * Get specific user
+   * @param userID
+   */
   @Get(':userID')
   async getUser(@Param('userID') userID: number) {
     return this.userService.getUser(userID);
   }
 
+  /**
+   * Create a new user
+   * @param userDTO
+   */
   @Post()
   async createUser(@Body() userDTO: UserDTO) {
     return this.userService.createUser(userDTO);
   }
 
+  /**
+   * Update an existing user
+   * @param userID
+   * @param user
+   */
   @Put(':userID')
   async updateUser(
     @Param('userID') userID: number,
@@ -35,6 +46,10 @@ export class UserController {
     return this.userService.updateUser(userID, user);
   }
 
+  /**
+   * Delete a user
+   * @param userID
+   */
   @Get('/delete/:userID')
   async deleteUser(@Param('userID') userID: number) {
     return this.userService.deleteUser(userID);

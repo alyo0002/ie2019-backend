@@ -5,11 +5,20 @@ import { TreatmentService } from './treatment.service';
 export class TreatmentController {
   constructor(private treatmentService: TreatmentService) {}
 
+  /**
+   * Get the current treatment for a specific patient
+   * @param patientID
+   */
   @Get(':patientID')
   async getTreatment(@Param('patientID') patientID: number) {
     return this.treatmentService.getTreatment(patientID);
   }
 
+  /**
+   * Change the treatment phase for a specific patient
+   * @param patientID
+   * @param phase
+   */
   @Post(':patientID/:phase')
   async setTreatmentPhase(
     @Param('patientID') patientID: number,

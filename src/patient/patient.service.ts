@@ -45,6 +45,9 @@ export class PatientService {
     });
   }
 
+  /**
+   * Get an updated patient list from LogBox
+   */
   async logboxUpdate(): Promise<any> {
     /*
     TODO: Query logbox for a list of patients
@@ -70,6 +73,10 @@ export class PatientService {
     );
   }
 
+  /**
+   * Create a new patient
+   * @param patientDTO
+   */
   async createPatient(patientDTO: PatientDTO): Promise<any> {
     const {
       address_physical,

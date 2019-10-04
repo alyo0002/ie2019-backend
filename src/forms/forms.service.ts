@@ -21,16 +21,25 @@ export class FormsService {
     private usersRepository: Repository<Users>,
   ) {}
 
+  /**
+   * Fetch all of the form templates
+   */
   async getAllTemplates(): Promise<any> {
-    // Fetch all of the form templates
     return await this.formTemplateRepository.find();
   }
 
+  /**
+   * Fetch the template, using its Id
+   * @param formTemplateId
+   */
   async getFormTemplateById(formTemplateId: number): Promise<any> {
-    // Fetch the template, using its Id
     return await this.formTemplateRepository.findOne(formTemplateId);
   }
 
+  /**
+   * Create a new form template
+   * @param formTemplateDTO
+   */
   async createFormTemplate(formTemplateDTO: FormTemplateDTO): Promise<any> {
     try {
       // Get the form template details from the DTO
@@ -46,6 +55,11 @@ export class FormsService {
     }
   }
 
+  /**
+   * Update an existing form template
+   * @param formTemplateId
+   * @param formTemplateDTO
+   */
   async editFormTemplate(
     formTemplateId: number,
     formTemplateDTO: FormTemplateDTO,
@@ -67,6 +81,10 @@ export class FormsService {
     }
   }
 
+  /**
+   * Remove a form template
+   * @param formTemplateId
+   */
   async removeFormTemplate(formTemplateId: number): Promise<any> {
     try {
       // Delete the form template, using its Id.
@@ -76,6 +94,10 @@ export class FormsService {
     }
   }
 
+  /**
+   * Capture a form response
+   * @param formDTO
+   */
   async captureFormResponse(formDTO: FormDTO): Promise<any> {
     try {
       // Get the form details from the DTO
@@ -97,6 +119,10 @@ export class FormsService {
     }
   }
 
+  /**
+   * Get forms for the initial interview
+   * @param appointmentId
+   */
   async getAppointmentForms(appointmentId: number): Promise<any> {
     try {
       // Fetch the form(s) from the specific appointment
