@@ -26,12 +26,19 @@ export class PatientService {
     private readonly httpService: HttpService,
   ) {}
 
+  /**
+   * Get a list of all patients
+   */
   async getPatientList(): Promise<Patient[]> {
     return await this.PatientRepository.find({
       relations: ['EmergencyContact', 'FamilyDoctor'],
     });
   }
 
+  /**
+   * Get a patient by ID
+   * @param patientID patientID to lookup
+   */
   async getPatient(patientID: number): Promise<Patient> {
     return await this.PatientRepository.findOne(patientID, {
       relations: ['EmergencyContact', 'FamilyDoctor'],
@@ -62,6 +69,7 @@ export class PatientService {
       },
     );
   }
+
   async createPatient(patientDTO: PatientDTO): Promise<any> {
     const {
       address_physical,

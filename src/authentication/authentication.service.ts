@@ -12,6 +12,10 @@ export class AuthenticationService {
     private jwtService: JwtService,
   ) {}
 
+  /**
+   * Validate the parsed authentication credentials dto
+   * @param authCredentialsDto DTO to validate
+   */
   async validateUser(authCredentialsDto: AuthCredentialsDto): Promise<string> {
     const { email, password } = authCredentialsDto;
     const user = await this.usersService.getUserByEmail(email);
@@ -23,6 +27,10 @@ export class AuthenticationService {
     }
   }
 
+  /**
+   * Generate a JWT token for the user
+   * @param authCredentialsDto
+   */
   async signIn(
     authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {

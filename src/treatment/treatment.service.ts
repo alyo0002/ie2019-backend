@@ -42,6 +42,4 @@ export class TreatmentService {
     toUpdate.Phase = phase;
     return await this.treatmentRepository.save(toUpdate);
   }
-
-
 }

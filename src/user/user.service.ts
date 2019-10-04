@@ -16,18 +16,34 @@ export class UserService {
     private userGroupsRepository: Repository<UserGroups>,
   ) {}
 
+  /**
+   * Get all users
+   */
   async getUsers(): Promise<Users[]> {
     return await this.usersRepository.find();
   }
 
+  /**
+   * Get a specific user by ID
+   * @param userID userID to lookup
+   */
   async getUser(userID: number): Promise<any> {
     return await this.usersRepository.findOne(userID);
   }
 
+  /**
+   * Get a specific user by email
+   * @param email email to lookup
+   */
   async getUserByEmail(email: string): Promise<Users> {
     return await this.usersRepository.findOne({ where: { Email: email } });
   }
 
+  /**
+   * Update an existing user
+   * @param userID userID to lookup
+   * @param userDTO userDTO to update off of
+   */
   async updateUser(
     userID: number,
     userDTO: UpdateUserDTO,
@@ -86,6 +102,10 @@ export class UserService {
     }
   }
 
+  /**
+   * Delete a user based on userID
+   * @param userID userID to lookup
+   */
   async deleteUser(userID: number): Promise<DeleteResult> {
     return await this.usersRepository.delete(userID);
   }
