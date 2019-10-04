@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Treatment } from '../entities/treatment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -35,19 +35,31 @@ export class TreatmentService {
     phase: number,
   ): Promise<Treatment> {
     const patient = await this.patientRepository.findOne(patientID);
-    let toUpdate = await this.treatmentRepository.findOne(
+    const toUpdate = await this.treatmentRepository.findOne(
       { Patient: patient },
       { relations: ['Patient'] },
     );
-    if (toUpdate !== undefined){
+    if (toUpdate !== undefined) {
       toUpdate.Phase = phase;
       return await this.treatmentRepository.save(toUpdate);
     } else {
-      let treatment = new Treatment();
+      const treatment = new Treatment();
       treatment.Patient = patient;
       treatment.Phase = phase;
       return await this.treatmentRepository.save(treatment);
     }
+  }
+
+  /**
+   * Get phase totals
+   */
+  async getPhaseTotals(): Promise<any> {
+    return await this.treatmentRepository
+      .createQueryBuilder()
+      .select('phase, COUNT(phase)')
+      .groupBy('phase')
+      .orderBy('phase')
+      .getRawMany();
   }
 
 }

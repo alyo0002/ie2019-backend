@@ -6,6 +6,14 @@ export class TreatmentController {
   constructor(private treatmentService: TreatmentService) {}
 
   /**
+   * Get phase totals
+   */
+  @Get('totals')
+  async getPhaseTotals() {
+    return this.treatmentService.getPhaseTotals();
+  }
+
+  /**
    * Get the current treatment for a specific patient
    * @param patientID
    */
@@ -26,4 +34,7 @@ export class TreatmentController {
   ) {
     return this.treatmentService.setTreatmentPhase(patientID, phase);
   }
+
+
+
 }
