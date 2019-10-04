@@ -19,7 +19,7 @@ export class TreatmentController {
    * @param patientID
    * @param phase
    */
-  @Post(':patientID/:phase')
+  @Get(':patientID/:phase')
   async setTreatmentPhase(
     @Param('patientID') patientID: number,
     @Param('phase') phase: number,

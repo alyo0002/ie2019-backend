@@ -39,7 +39,15 @@ export class TreatmentService {
       { Patient: patient },
       { relations: ['Patient'] },
     );
-    toUpdate.Phase = phase;
-    return await this.treatmentRepository.save(toUpdate);
+    if (toUpdate !== undefined){
+      toUpdate.Phase = phase;
+      return await this.treatmentRepository.save(toUpdate);
+    } else {
+      let treatment = new Treatment();
+      treatment.Patient = patient;
+      treatment.Phase = phase;
+      return await this.treatmentRepository.save(treatment);
+    }
   }
+
 }
