@@ -4,7 +4,7 @@ import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 export class AuthCredentialsDto {
   @ApiModelProperty()
   @IsString()
-  email: string;
+  username: string;
   @ApiModelProperty()
   @IsString()
   password: string;

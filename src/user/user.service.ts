@@ -40,6 +40,14 @@ export class UserService {
   }
 
   /**
+   * Get the UserGroups object for a specific userID
+   * @param userID user to lookup
+   */
+  async getUserGroup(userID: number): Promise<UserGroups> {
+    return await this.userGroupsRepository.findOne(1);
+  }
+
+  /**
    * Update an existing user
    * @param userID userID to lookup
    * @param userDTO userDTO to update off of

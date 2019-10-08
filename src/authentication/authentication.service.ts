@@ -3,6 +3,8 @@ import { UserService } from '../user/user.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayloadInterface } from './interface/jwt-payload.interface';
+import { Users } from '../entities/users.entity';
+import { stringify } from 'querystring';
 
 @Injectable()
 export class AuthenticationService {
@@ -16,12 +18,12 @@ export class AuthenticationService {
    * Validate the parsed authentication credentials dto
    * @param authCredentialsDto DTO to validate
    */
-  async validateUser(authCredentialsDto: AuthCredentialsDto): Promise<string> {
-    const { email, password } = authCredentialsDto;
-    const user = await this.usersService.getUserByEmail(email);
+  async validateUser(authCredentialsDto: AuthCredentialsDto): Promise<Users> {
+    const { username, password } = authCredentialsDto;
+    const user = await this.usersService.getUserByEmail(username);
 
     if (user && (await user.validatePassword(password))) {
-      return user.Email;
+      return user;
     } else {
       return null;
     }
@@ -33,17 +35,22 @@ export class AuthenticationService {
    */
   async signIn(
     authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string }> {
-    const emailaddress = await this.validateUser(authCredentialsDto);
+  ): Promise<any> {
+    const user = await this.validateUser(authCredentialsDto);
 
-    if (!emailaddress) {
+    if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     // payload for the token
-    const payload: JwtPayloadInterface = { emailaddress };
-    const accessToken = await this.jwtService.sign(payload);
+    const payload: JwtPayloadInterface = { emailaddress: user.Email };
+    const token = await this.jwtService.sign(payload);
+    const firstName = user.NameFirst;
+    const lastName = user.NameLast;
+    const role = 'Admin';
+    const id = user.Id;
+    const username = user.Email;
 
-    return { accessToken };
+    return { firstName, lastName, role, id, username, token };
   }
 }
