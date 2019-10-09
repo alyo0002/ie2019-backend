@@ -3,7 +3,6 @@ import {
   HttpService,
   HttpStatus,
   Injectable,
-  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,8 +11,8 @@ import { FamilyDoctor } from '../entities/family_doctor.entity';
 import { Patient } from '../entities/patient.entity';
 import { validate } from 'class-validator';
 import { PatientDTO } from './dto/patient.dto';
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
+import { map } from 'rxjs/operators';
+
 @Injectable()
 export class PatientService {
   constructor(
@@ -49,15 +48,8 @@ export class PatientService {
    * Get an updated patient list from LogBox
    */
   async logboxUpdate(): Promise<any> {
-    /*
-    TODO: Query logbox for a list of patients
-    TODO: Filter list for duplicates
-    TODO: Create new patients based on list
-    */
-
-    return this.httpService.get(
-      'https://qa.logbox.co.za/logboxrest_v2/patient/search',
-      {
+    return this.httpService
+      .get('https://qa.logbox.co.za/logboxrest_v2/patient/search', {
         params: {
           practiceNumber: '0458795',
         },
@@ -69,8 +61,88 @@ export class PatientService {
           Authorization:
             'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJsaXZkbTk1QGdtYWlsLmNvbSJ9.am6gP8vm-_GFGKzyXEL_oKD5HnjxSItBF5jaTaGeCFd1hNjECd-cqLfzpQE6DeM7XCHj-IEP89PXbNgtdyI3oA',
         },
-      },
-    );
+      })
+      .pipe(map(response => response.data));
+  }
+
+  async logboxDatabaseUpdate(list: object): Promise<any> {
+    // @ts-ignore
+    list.subscribe(async data => {
+      for (const item of Object.keys(data)) {
+        // console.log(data[item]);
+        if (
+          !(await this.PatientRepository.findOne({
+            IdNumber: data[item].person.idNumber,
+          }))
+        ) {
+          const emergencyContact = new EmergencyContact();
+          emergencyContact.NameFirst = data[item].emergencyContact.firstname;
+          emergencyContact.NameLast = data[item].emergencyContact.lastname;
+          emergencyContact.PhoneNumber =
+            data[item].emergencyContact.phone.number;
+          emergencyContact.Relationship =
+            data[item].emergencyContact.relationship.name;
+
+          const familyDoctor = new FamilyDoctor();
+          familyDoctor.Name = data[item].familyDoctor.name;
+          familyDoctor.PhoneNumber = data[item].familyDoctor.phone;
+
+          const patient = new Patient();
+          patient.LbUuid = data[item].person.uuid;
+          patient.Title = data[item].person.title.name;
+          patient.NameFirst = data[item].person.firstname;
+          patient.NameLast = data[item].person.lastname;
+          const dateParts = data[item].person.dob.split('-');
+          patient.Dob = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+          patient.IdNumber = data[item].person.idNumber;
+          patient.Gender = data[item].person.gender;
+          patient.Nationality =
+            data[item].person.identityCountry.value == null
+              ? 'South African'
+              : data[item].person.identityCountry.value;
+          patient.PhoneCell = data[item].cellPhone.number;
+          patient.PhoneHome = data[item].homePhone;
+          patient.PhoneWork = data[item].workPhone;
+          patient.Email = data[item].email.address;
+          patient.AddressPostal = data[item].postalAddress;
+          patient.AddressPhysical = data[item].residentialAddress;
+          // The problem is in these two fields, which are respectively relationships.
+          // Due to the function being asynchronous, the 'await' keyword has to be utilized however,
+          // because list is an observation returned from the http module,
+          // it's impossible to query the await method inside, since the observable object itself is not asynchronous.
+          // getting around this requires the usage of a TypeScript observable object, not a nest one
+          if (
+            !(await this.FamilyDoctorRepository.findOne({
+              Name: data[item].familyDoctor.name,
+              PhoneNumber: data[item].familyDoctor.phone,
+            }))
+          ) {
+            await this.FamilyDoctorRepository.save(familyDoctor);
+          }
+          if (
+            !(await this.EmergencyContactRepository.findOne({
+              NameFirst: data[item].emergencyContact.firstname,
+              NameLast: data[item].emergencyContact.lastname,
+              PhoneNumber: data[item].emergencyContact.phone.number,
+            }))
+          ) {
+            await this.EmergencyContactRepository.save(emergencyContact);
+          }
+          patient.EmergencyContact = await this.EmergencyContactRepository.findOne(
+            {
+              NameFirst: data[item].emergencyContact.firstname,
+              NameLast: data[item].emergencyContact.lastname,
+              PhoneNumber: data[item].emergencyContact.phone.number,
+            },
+          );
+          patient.FamilyDoctor = await this.FamilyDoctorRepository.findOne({
+            Name: data[item].familyDoctor.name,
+            PhoneNumber: data[item].familyDoctor.phone,
+          });
+          await this.PatientRepository.save(patient);
+        }
+      }
+    });
   }
 
   /**
@@ -109,7 +181,7 @@ export class PatientService {
     newPatient.Title = title;
     newPatient.NameFirst = name_first;
     newPatient.NameLast = name_last;
-    newPatient.Dob = dob;
+    newPatient.Dob = new Date(dob);
     newPatient.IdNumber = id_number;
     newPatient.Gender = gender;
     newPatient.Nationality = nationality;

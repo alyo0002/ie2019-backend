@@ -34,7 +34,4 @@ export class TreatmentController {
   ) {
     return this.treatmentService.setTreatmentPhase(patientID, phase);
   }
-
-
-
 }

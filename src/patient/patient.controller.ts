@@ -14,6 +14,20 @@ export class PatientController {
   async findAll() {
     return this.patientService.getPatientList();
   }
+  /**
+   * Update patient list from LogBox. This happens in two stages due to an issue with the nestjs lifecycle
+   * The first stage gets an observer from the nest http module by calling logboxUpdate
+   * The second stage passes the observer to logboxDatabaseUpdate and converts the observer to a TypeScript
+   * object and forces the resulting lambda to be asynchronous allowing for the relationships to be created within the object.
+   * This is done using the ES5 and not ES6 functions, but this shouldn't result in any issues long term.
+   */
+  @Get('/listUpdate')
+  async logboxUpdate() {
+    const patientList = await this.patientService.logboxUpdate().catch(err => {
+      throw err;
+    });
+    return await this.patientService.logboxDatabaseUpdate(patientList);
+  }
 
   /**
    * Get specific patient
@@ -22,16 +36,6 @@ export class PatientController {
   @Get(':patientID')
   async getUser(@Param('patientID') patientID: number) {
     return this.patientService.getPatient(patientID);
-  }
-
-  /**
-   * Update patient list from LogBox
-   */
-  @Get('/listUpdate')
-  async logboxUpdate() {
-    return this.patientService.logboxUpdate().catch(err => {
-      throw err;
-    });
   }
 
   /**

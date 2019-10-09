@@ -33,9 +33,7 @@ export class AuthenticationService {
    * Generate a JWT token for the user
    * @param authCredentialsDto
    */
-  async signIn(
-    authCredentialsDto: AuthCredentialsDto,
-  ): Promise<any> {
+  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<any> {
     const user = await this.validateUser(authCredentialsDto);
 
     if (!user) {

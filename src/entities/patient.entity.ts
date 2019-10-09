@@ -13,7 +13,7 @@ export class Patient {
   })
   Id: number;
 
-  @Column('uuid', {
+  @Column('text', {
     nullable: false,
     name: 'lb_uuid',
   })
@@ -41,7 +41,7 @@ export class Patient {
     nullable: true,
     name: 'dob',
   })
-  Dob: string | null;
+  Dob: Date | null;
 
   @Column('text', {
     nullable: true,

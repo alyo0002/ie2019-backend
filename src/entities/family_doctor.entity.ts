@@ -18,15 +18,9 @@ export class FamilyDoctor {
 
   @Column('text', {
     nullable: true,
-    name: 'name_first',
+    name: 'name',
   })
-  NameFirst: string | null;
-
-  @Column('text', {
-    nullable: true,
-    name: 'name_last',
-  })
-  NameLast: string | null;
+  Name: string | null;
 
   @Column('text', {
     nullable: true,
