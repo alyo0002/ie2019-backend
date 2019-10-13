@@ -1,5 +1,8 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
+/**
+ * Scan Data Transfer Object
+ */
 export class ScanDTO {
   @ApiModelProperty()
   readonly scanTypeId: number;

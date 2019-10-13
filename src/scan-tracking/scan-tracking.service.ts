@@ -20,9 +20,12 @@ export class ScanTrackingService {
     private usersRepository: Repository<Users>,
   ) {}
 
+  /**
+   * Get all of the user's scans.
+   * @param userId
+   */
   async fetchUserScans(userId: number): Promise<any> {
     try {
-      // Get all of the user's scans.
       return await this.scanRepository
         .createQueryBuilder()
         .where('user_id = :userId', { userId })
@@ -32,15 +35,22 @@ export class ScanTrackingService {
     }
   }
 
+  /**
+   * Fetch a specific scan.
+   * @param scanId
+   */
   async fetchScanById(scanId: number): Promise<any> {
     try {
-      // Fetch a user's specific scan.
       return await this.scanRepository.findOne(scanId);
     } catch (e) {
       e.printStackTrace;
     }
   }
 
+  /**
+   * Add a new scan
+   * @param scanDTO
+   */
   async addScan(scanDTO: ScanDTO): Promise<any> {
     try {
       // Get the scan details from the DTO
@@ -60,6 +70,11 @@ export class ScanTrackingService {
     }
   }
 
+  /**
+   * Update an existing scan
+   * @param scanId
+   * @param scanDTO
+   */
   async updateScan(scanId: number, scanDTO: ScanDTO): Promise<any> {
     try {
       // Get the updated scan details from the DTO
@@ -80,6 +95,10 @@ export class ScanTrackingService {
     }
   }
 
+  /**
+   * Delete an existing scan
+   * @param scanId
+   */
   async removeScan(scanId: number): Promise<any> {
     try {
       // Delete the scan, using its Id.
@@ -89,6 +108,9 @@ export class ScanTrackingService {
     }
   }
 
+  /**
+   * Get the types of scans
+   */
   async fetchScanTypes(): Promise<any> {
     try {
       // Fetch all of the scan type options.

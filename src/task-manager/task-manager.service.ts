@@ -14,9 +14,11 @@ export class TaskManagerService {
     private usersRepository: Repository<Users>,
   ) {}
 
+  /**
+   * Get all of the tasks assigned to the user, including the tasks assigned by the user to himself/herself.
+   * @param userId
+   */
   async fetchMyTasks(userId: number): Promise<any> {
-    /* Get all of the tasks assigned to the user,
-    including the tasks assigned by the user to himself/herself.*/
     try {
       return await this.taskRepository
         .createQueryBuilder()
@@ -29,9 +31,11 @@ export class TaskManagerService {
     }
   }
 
+  /**
+   * Get all of the tasks assigned by the user, except for the tasks assigned by the user to himself/herself.
+   * @param userId
+   */
   async fetchAssignedTasks(userId: number): Promise<any> {
-    /* Get all of the tasks assigned by the user,
-    except for the tasks assigned by the user to himself/herself.*/
     try {
       return await this.taskRepository
         .createQueryBuilder()
@@ -46,6 +50,11 @@ export class TaskManagerService {
     }
   }
 
+  /**
+   * Add a new task
+   * @param userId
+   * @param taskDTO
+   */
   async addTask(userId: number, taskDTO: TaskDTO): Promise<any> {
     try {
       // Get the task details from the DTO
@@ -75,6 +84,11 @@ export class TaskManagerService {
     }
   }
 
+  /**
+   * Update an existing task
+   * @param taskId
+   * @param taskDTO
+   */
   async updateTask(taskId: number, taskDTO: TaskDTO): Promise<any> {
     try {
       // Get the updated task details from the DTO
@@ -102,6 +116,10 @@ export class TaskManagerService {
     }
   }
 
+  /**
+   * Delete an existing task
+   * @param taskId
+   */
   async removeTask(taskId: number): Promise<any> {
     try {
       return await this.taskRepository.delete(taskId);

@@ -1,5 +1,8 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 
+/**
+ * Task Data Transfer Object
+ */
 export class TaskDTO {
   @ApiModelProperty()
   readonly name: string;

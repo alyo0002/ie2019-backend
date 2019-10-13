@@ -1,5 +1,8 @@
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * Patient Data Transfer Object
+ */
 export class PatientDTO {
   @ApiModelPropertyOptional()
   readonly lb_uuid: string;
